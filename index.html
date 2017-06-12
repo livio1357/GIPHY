@@ -105,7 +105,7 @@
 
          for (var i = 0; i < data.length; i++) {
             
-           var animalDiv = $("<div class='animal'>");
+           var animalDiv = $("<div>"); //class='animal'
 
 
 
@@ -133,13 +133,20 @@
 
           // Retrieving the URL for the image
 
-           var imgURL = data[i].images.fixed_height.url;
-
+           var imgURL =  data[i].images.fixed_height_still.url; //data[i].images.fixed_height.url;
+            var imgStill = data[i].images.fixed_height_still.url;
+            var imgAnimate = data[i].images.fixed_height.url;
+            var imgstate = "still";
 
 
          
 
-          var image = $("<img>").attr("src", imgURL);
+          var image = $("<img class='gif'>") //.attr("src", imgURL);
+
+          image.attr("src", imgURL);
+          image.attr("data-still", imgStill);
+          image.attr("data-animate", imgAnimate)
+          image.attr("data-state", imgstate)
 
 
 
@@ -151,6 +158,21 @@
 
 
           $("#animal-view").prepend(animalDiv);
+
+
+// from the animate pause work 
+   $(".gif").on("click", function() {
+     var state = $(this).attr("data-state");
+     
+     if (state === "still") {
+       $(this).attr("src", $(this).attr("data-animate"));
+       $(this).attr("data-state", "animate");
+     } else {
+       $(this).attr("src", $(this).attr("data-still"));
+       $(this).attr("data-state", "still");
+     }
+   });
+
 }
         });
 
